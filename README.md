@@ -44,7 +44,8 @@
         <a href="#features">Features</a> |
         <a href="#values">Values</a> |
         <a href="#integration">Integration</a> |
-        <a href="#community">Community</a>
+        <a href="#community">Community</a> |
+        <a href="#feedback">Feedback</a>
     </h4>
 </div>
 
@@ -75,7 +76,17 @@ Flipt supports use cases such as:
 - :lock: **Security** - HTTPS support. No data leaves your servers and you don't have to open your systems to the outside world to communicate with Flipt. It all runs within your existing infrastructure.
 - :rocket: **Speed** - Since Flipt is co-located with your existing services, you do not have to communicate across the internet which can add excessive latency and slow down your applications.
 - :white_check_mark: **Simplicity** - Flipt is a single binary with no external dependencies by default.
-- :thumbsup: **Compatibility** - REST, GRPC, MySQL, Postgres, SQLite.. Flipt supports it all.
+- :thumbsup: **Compatibility** - REST, GRPC, MySQL, Postgres, SQLite, Redis.. Flipt supports it all.
+
+## Works With
+
+<p align="center">
+    <img src="./logos/sqlite.svg" alt="SQLite" width=150 height=150 />
+    <img src="./logos/mysql.svg" alt="MySQL" width=150 height=150 />
+    <img src="./logos/postgresql.svg" alt="PostgreSQL" width=150 height=150 />
+    <img src="./logos/redis.svg" alt="Redis" width=150 height=150 />
+    <img src="./logos/prometheus.svg" alt="Prometheus" width=150 height=150 />
+</p>
 
 ## Try It
 
@@ -92,12 +103,27 @@ Try the latest version of Flipt out for yourself.
 ![Flipt](cli.gif)
 
 ```bash
-❯ docker run --rm -p 8080:8080 -p 9000:9000 -t markphelps/flipt:latest
+❯ docker run --rm -p 8080:8080 -p 9000:9000 -t flipt/flipt:latest
 ```
 
 Flipt UI will now be reachable at [http://127.0.0.1:8080/](http://127.0.0.1:8080).
 
 For more permanent methods of running Flipt, see the [Installation](https://flipt.io/docs/installation/) section.
+
+## Logos
+
+Some of the companies depending on Flipt in production.
+
+<p>
+    <a href="https://paradigm.co">
+        <img src="./logos/users/paradigm.png" alt="Paradigm" />
+    </a>
+    <a href="https://rokt.com">
+        <img src="logos/users/rokt.svg" alt="Rokt" width="200"/>
+    </a>
+</p>
+
+Using Flipt at your company? Open a PR and add your logo here!
 
 ## Integration
 
@@ -160,18 +186,6 @@ The server code is licensed under the [GPL 3.0 License](https://spdx.org/license
 
 See [LICENSE](LICENSE).
 
-## Logos
-
-| [![Paradigm](logos/paradigm-logo-light-vertical-128x128.png)](https://www.paradigm.co/) |
-| ------------------------------------------------------------------------------------------|
-| [Paradigm](https://www.paradigm.co/)                                                      |
-
-| <img src="logos/rokt.svg" width="200"/>                                     |
-| ------------------------------------------------------------------------------------------|
-| [Rokt](https://www.rokt.com/)                                                             |
-
-Using Flipt at your company? Open a PR and add your logo here!
-
 ## Sponsors
 
 If you use Flipt at your company, please consider [becoming a sponsor](https://github.com/sponsors/markphelps) today.
@@ -185,6 +199,12 @@ Please help me prioritize an Enterprise version of Flipt by filling out this [sh
 ## Community
 
 For help and discussion around Flipt, feature flag best practices, and more, join us on [Discord](https://discord.gg/fjPVc5JuyE).
+
+## Feedback
+
+If you are a user of Flipt I'd really :heart: it if you could leave a testimonal on how Flipt is working for you.
+
+https://testimonial.to/flipt
 
 ## Author
 

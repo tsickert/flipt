@@ -1,4 +1,6 @@
-FROM markphelps/flipt:latest
+FROM flipt/flipt:latest
+
+USER root
 
 RUN apk update && apk add --no-cache git bash
 
