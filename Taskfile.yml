@@ -63,6 +63,7 @@ tasks:
     desc: Run the UI dev server
     dir: "{{.UI}}"
     cmds:
+      - npm install
       - npm run dev
 
   bench:
