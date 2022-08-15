@@ -192,6 +192,29 @@ func TestLoad(t *testing.T) {
 			},
 		},
 		{
+			name: "oauth provider",
+			path: "./testdata/oauth.yml",
+			expected: func() *Config {
+				cfg := Default()
+				cfg.Auth = AuthConfig{
+					Anonymous: AnonymousAuth{Enabled: true},
+					GitHub: AuthProviderConfig{
+						Enabled:              true,
+						AllowSignUp:          true,
+						ClientId:             "some_id",
+						ClientSecret:         "some_secret",
+						Scopes:               []string{"user:email", "read:org"},
+						AuthUrl:              "https://github.com/login/oauth/authorize",
+						TokenUrl:             "https://github.com/login/oauth/access_token",
+						ApiUrl:               "https://api.github.com/user",
+						AllowedDomains:       []string{"gmail"},
+						AllowedOrganizations: []string{"flipt-io"},
+					},
+				}
+				return cfg
+			},
+		},
+		{
 			name: "advanced",
 			path: "./testdata/advanced.yml",
 			expected: func() *Config {

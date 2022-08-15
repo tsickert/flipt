@@ -27,6 +27,7 @@ type Config struct {
 	Server   ServerConfig   `json:"server,omitempty"`
 	Tracing  TracingConfig  `json:"tracing,omitempty"`
 	Database DatabaseConfig `json:"database,omitempty"`
+	Auth     AuthConfig     `json:"auth,omitempty"`
 	Meta     MetaConfig     `json:"meta,omitempty"`
 	Warnings []string       `json:"warnings,omitempty"`
 }
@@ -157,6 +158,32 @@ type DatabaseConfig struct {
 	Protocol        DatabaseProtocol `json:"protocol,omitempty"`
 }
 
+type AuthConfig struct {
+	Anonymous AnonymousAuth      `json:"anonymous,omitempty"`
+	GitHub    AuthProviderConfig `json:"gitHub,omitempty"`
+}
+
+type AuthProviderConfig struct {
+	Enabled     bool `json:"enabled"`
+	AllowSignUp bool `json:"allowSignUp"`
+	// TODO: This is not the right place for the client ID and Secret to live long term (should be env variables)
+	ClientId       string   `json:"clientId"`
+	ClientSecret   string   `json:"clientSecret"`
+	Scopes         []string `json:"scopes"`
+	AuthUrl        string   `json:"authUrl"`
+	TokenUrl       string   `json:"tokenUrl"`
+	ApiUrl         string   `json:"apiUrl"`
+	AllowedDomains []string `json:"allowedDomains"`
+	//TeamIds              []string `json:"teamIds"`
+	// TODO: should add a warning here. Flipt likely won't ever be customer facing, so if this is allowed and sign up is enabled
+	//  there's potentially a huge security risk.
+	AllowedOrganizations []string `json:"allowedOrganizations"`
+}
+
+type AnonymousAuth struct {
+	Enabled bool `json:"enabled,omitempty"`
+}
+
 type MetaConfig struct {
 	CheckForUpdates  bool   `json:"checkForUpdates"`
 	TelemetryEnabled bool   `json:"telemetryEnabled"`
@@ -238,6 +265,10 @@ func Default() *Config {
 			MaxIdleConn:    2,
 		},
 
+		Auth: AuthConfig{
+			Anonymous: AnonymousAuth{Enabled: true},
+		},
+
 		Meta: MetaConfig{
 			CheckForUpdates:  true,
 			TelemetryEnabled: true,
@@ -296,6 +327,19 @@ const (
 	dbHost            = "db.host"
 	dbPort            = "db.port"
 	dbProtocol        = "db.protocol"
+
+	// Auth
+	authAnonEnabled                = "auth.anonymous.enabled"
+	authGitHubEnabled              = "auth.github.enabled"
+	authGitHubAllowSignUp          = "auth.github.allow_sign_up"
+	authGitHubClientId             = "auth.github.client_id"
+	authGitHubClientSecret         = "auth.github.client_secret"
+	authGitHubScopes               = "auth.github.scopes"
+	authGitHubAuthUrl              = "auth.github.auth_url"
+	authGitHubTokenUrl             = "auth.github.token_url"
+	authGitHubApiUrl               = "auth.github.api_url"
+	authGitHubAllowedDomains       = "auth.github.allowed_domains"
+	authGitHubAllowedOrganizations = "auth.github.allowed_organizations"
 
 	// Meta
 	metaCheckForUpdates  = "meta.check_for_updates"
@@ -472,6 +516,51 @@ func Load(path string) (*Config, error) {
 
 	if viper.IsSet(dbConnMaxLifetime) {
 		cfg.Database.ConnMaxLifetime = viper.GetDuration(dbConnMaxLifetime)
+	}
+
+	// Auth
+	if viper.IsSet(authAnonEnabled) {
+		cfg.Auth.Anonymous.Enabled = viper.GetBool(authAnonEnabled)
+	}
+
+	if viper.IsSet(authGitHubEnabled) {
+		cfg.Auth.GitHub.Enabled = viper.GetBool(authGitHubEnabled)
+	}
+
+	if viper.IsSet(authGitHubAllowSignUp) {
+		cfg.Auth.GitHub.AllowSignUp = viper.GetBool(authGitHubAllowSignUp)
+	}
+
+	if viper.IsSet(authGitHubClientId) {
+		cfg.Auth.GitHub.ClientId = viper.GetString(authGitHubClientId)
+	}
+
+	if viper.IsSet(authGitHubClientSecret) {
+		cfg.Auth.GitHub.ClientSecret = viper.GetString(authGitHubClientSecret)
+	}
+
+	if viper.IsSet(authGitHubScopes) {
+		cfg.Auth.GitHub.Scopes = viper.GetStringSlice(authGitHubScopes)
+	}
+
+	if viper.IsSet(authGitHubAuthUrl) {
+		cfg.Auth.GitHub.AuthUrl = viper.GetString(authGitHubAuthUrl)
+	}
+
+	if viper.IsSet(authGitHubApiUrl) {
+		cfg.Auth.GitHub.ApiUrl = viper.GetString(authGitHubApiUrl)
+	}
+
+	if viper.IsSet(authGitHubTokenUrl) {
+		cfg.Auth.GitHub.TokenUrl = viper.GetString(authGitHubTokenUrl)
+	}
+
+	if viper.IsSet(authGitHubAllowedDomains) {
+		cfg.Auth.GitHub.AllowedDomains = viper.GetStringSlice(authGitHubAllowedDomains)
+	}
+
+	if viper.IsSet(authGitHubAllowedOrganizations) {
+		cfg.Auth.GitHub.AllowedOrganizations = viper.GetStringSlice(authGitHubAllowedOrganizations)
 	}
 
 	// Meta
